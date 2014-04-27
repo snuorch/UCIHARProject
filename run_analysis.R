@@ -1,5 +1,5 @@
 
-
+library(reshape2)
 
 #Read Test features (ytest)
 y_test <- read.table("UCI HAR Dataset/test/y_test.txt")
@@ -44,5 +44,10 @@ df <- df[,grep("mean\\(\\)|std\\(\\)|Activity|SubjectID",names(df),ignore.case=F
 
 write.table(df,"MeanStdDataset.txt")
 
-
+#Starting to generate second dataset
+#Before melt
+meltdf <- melt(df, id=c("Activity","SubjectID"))
+#Then dcast over Activity+SubjectID
+castdf <- dcast(meltdf, Activity + SubjectID ~ variable, mean)
+write.table(castdf,"TinyDataSet.txt")
 
